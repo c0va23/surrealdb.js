@@ -342,21 +342,21 @@ export class Surreal extends AuthController {
 		const raw = await this.queryRaw<T>(...args);
 		const results: unknown[] = [];
 
-		let errorMessage = ""
+		let errorMessage = "";
 
 		raw.forEach(({ status, result }, index) => {
 			if (status === "ERR") {
-				errorMessage += `Statement #${index}: ${result}\n`
+				errorMessage += `Statement #${index}: ${result}\n`;
 			} else {
-				results.push(result)
+				results.push(result);
 			}
-		})
+		});
 
 		if (errorMessage.length > 0) {
-			throw new ResponseError(errorMessage)
+			throw new ResponseError(errorMessage);
 		}
 
-		return results as T
+		return results as T;
 	}
 
 	/**
