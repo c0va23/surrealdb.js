@@ -340,10 +340,23 @@ export class Surreal extends AuthController {
 		...args: QueryParameters
 	): Promise<Prettify<T>> {
 		const raw = await this.queryRaw<T>(...args);
-		return raw.map(({ status, result }) => {
-			if (status === "ERR") throw new ResponseError(result);
-			return result;
-		}) as T;
+		const results: unknown[] = [];
+
+		let errorMessage = "";
+
+		raw.forEach(({ status, result }, index) => {
+			if (status === "ERR") {
+				errorMessage += `Statement #${index}: ${result}\n`;
+			} else {
+				results.push(result);
+			}
+		});
+
+		if (errorMessage.length > 0) {
+			throw new ResponseError(errorMessage);
+		}
+
+		return results as T;
 	}
 
 	/**
