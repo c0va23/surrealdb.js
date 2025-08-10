@@ -42,5 +42,17 @@ describe("record ids", () => {
 		expect(new RecordId("table", ["London"]).toString()).toBe(
 			'table:[ s"London" ]',
 		);
+
+		type BaseRecordId = RecordId<"namespace", string>;
+		type ComplexRecordId = RecordId<"table", [BaseRecordId, string]>;
+
+		const complexRecordId: ComplexRecordId = new RecordId("table", [
+			new RecordId("namespace", "europe"),
+			"London",
+		]);
+
+		expect(complexRecordId.toString()).toBe(
+			'table:[ r"namespace:europe", s"London" ]',
+		);
 	});
 });

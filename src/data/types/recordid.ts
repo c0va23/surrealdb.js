@@ -16,11 +16,14 @@ export type RecordIdValue =
 /**
  * A SurrealQL record ID value.
  */
-export class RecordId<Tb extends string = string> extends Value {
+export class RecordId<
+	Tb extends string = string,
+	Vt extends RecordIdValue = RecordIdValue,
+> extends Value {
 	public readonly tb: Tb;
-	public readonly id: RecordIdValue;
+	public readonly id: Vt;
 
-	constructor(tb: Tb, id: RecordIdValue) {
+	constructor(tb: Tb, id: Vt) {
 		super();
 
 		if (typeof tb !== "string")
