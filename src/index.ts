@@ -17,6 +17,7 @@ export * from "./util/escape.ts";
 export {
 	ConnectionStatus,
 	AbstractEngine,
+	EngineContext,
 	type Engine,
 	type Engines,
 	type EngineEvents,
